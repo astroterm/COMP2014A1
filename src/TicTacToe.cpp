@@ -7,4 +7,9 @@
 
 
 
-TicTacToe::TicTacToe() : status(Playable {}) {};
+TicTacToe::TicTacToe() :
+    board(),
+    status()
+{
+    
+};

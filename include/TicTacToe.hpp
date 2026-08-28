@@ -6,14 +6,14 @@
 #include "constants.hpp"
 #include "player.hpp"
 
-struct Win { Player player; };
+struct Win { Player& player; };
 struct Draw {};
 struct Playable {};
-using Status = std::variant<Win, Draw, Playable>;
+using Status = std::variant<Playable, Win, Draw>;
 
-struct Taken { Player player; };
+struct Taken { Player& player; };
 struct Empty {};
-using Tile = std::variant<Taken, Empty>;
+using Tile = std::variant<Empty, Taken>;
 
 
 class TicTacToe {
