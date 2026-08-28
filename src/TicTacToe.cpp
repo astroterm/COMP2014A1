@@ -46,6 +46,8 @@ std::expected<void, MoveError> TicTacToe::addMove(PlayerRef player) {
 
     board[row][col] = Taken {player};
 
+    moves++;
+
     return {};
 }
 
