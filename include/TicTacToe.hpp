@@ -8,12 +8,14 @@
 #include "constants.hpp"
 #include "player.hpp"
 
-struct Won { std::reference_wrapper<Player> player; };
+using PlayerRef = std::reference_wrapper<Player>;
+
+struct Won { PlayerRef player; };
 struct Draw {};
 struct Playable {};
 using Status = std::variant<Playable, Won, Draw>;
 
-struct Taken { std::reference_wrapper<Player> player; };
+struct Taken { PlayerRef player; };
 struct Empty {};
 using Tile = std::variant<Empty, Taken>;
 
@@ -27,11 +29,10 @@ enum class MoveError {
 class TicTacToe {
 public:
     TicTacToe();
-    std::expected<void, MoveError> addMove(Player*);
+    std::expected<void, MoveError> addMove(PlayerRef);
     bool displayRow(int, char) const;
 
 private:
-    bool isValidMove(int, int) const;
     Status gameStatus() const;
 
     std::array<std::array<Tile, BOARDSIZE>, BOARDSIZE> board;
