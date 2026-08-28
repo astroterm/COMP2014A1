@@ -23,7 +23,7 @@ bool TicTacToe::displayRow(int row, char separator) const {
     if (row >= BOARDSIZE || row < 0) return false;
     for (const auto& tile : board[row]) {
         std::cout << separator << " ";
-        if (auto* taken = std::get_if<Taken>(&tile))
+        if (const auto* taken = std::get_if<Taken>(&tile))
             std::cout << taken->player.get().token;
         else std::cout << " ";
         std::cout << " ";
@@ -56,13 +56,13 @@ bool TicTacToe::playerWon(PlayerRef player) const {
     int i = 0;
     for (const auto& row : board)
         for (const auto& tile : row) {
-            if (auto* taken = std::get_if<Taken>(&tile))
+            if (const auto* taken = std::get_if<Taken>(&tile))
                 if (samePlayer(player, taken->player))
                     bitboard.set(i);
             i++;
         }
     
-    for (auto& pattern : WIN_PATTERNS) {
+    for (const auto& pattern : WIN_PATTERNS) {
         if ((bitboard & pattern) == pattern) return true;
     }
     return false;
