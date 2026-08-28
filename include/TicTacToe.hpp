@@ -2,29 +2,37 @@
 
 #include <array>
 #include <variant>
+#include <expected>
+#include <functional>
 
 #include "constants.hpp"
 #include "player.hpp"
 
-struct Win { Player& player; };
+struct Won { std::reference_wrapper<Player> player; };
 struct Draw {};
 struct Playable {};
-using Status = std::variant<Playable, Win, Draw>;
+using Status = std::variant<Playable, Won, Draw>;
 
-struct Taken { Player& player; };
+struct Taken { std::reference_wrapper<Player> player; };
 struct Empty {};
 using Tile = std::variant<Empty, Taken>;
+
+enum class MoveError {
+    OutOfBounds,
+    TileTaken,
+    BoardFinished,
+};
 
 
 class TicTacToe {
 public:
     TicTacToe();
-    int addMove(Player);
-    int displayRow(int, char) const;
+    std::expected<void, MoveError> addMove(Player*);
+    bool displayRow(int, char) const;
 
 private:
     bool isValidMove(int, int) const;
-    int gameStatus() const;
+    Status gameStatus() const;
 
     std::array<std::array<Tile, BOARDSIZE>, BOARDSIZE> board;
     Status status;

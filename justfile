@@ -1,5 +1,5 @@
 cxx := "c++"
-cxx_ver := "20"
+cxx_ver := "26"
 flags := "-std=c++" + cxx_ver + " -Wall -Wextra -pedantic"
 
 run source="*.cpp": (build source)
