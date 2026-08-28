@@ -15,8 +15,9 @@ namespace {
 }
 
 TicTacToe::TicTacToe() :
+    status {},
     board  {},
-    status {}
+    moves (0)
 {}
 
 bool TicTacToe::displayRow(int row, char separator) const {
@@ -33,10 +34,10 @@ bool TicTacToe::displayRow(int row, char separator) const {
 }
 
 std::expected<void, MoveError> TicTacToe::addMove(PlayerRef player) {
-    auto [row, col] = player.get().move();
-
     if (!std::holds_alternative<Playable>(status))
         return std::unexpected(MoveError::BoardFinished);
+
+    auto [row, col] = player.get().move();
 
     if (row >= BOARDSIZE || col >= BOARDSIZE || row < 0 || col < 0)
         return std::unexpected(MoveError::OutOfBounds);
@@ -49,7 +50,7 @@ std::expected<void, MoveError> TicTacToe::addMove(PlayerRef player) {
     return {};
 }
 
-bool TicTacToe::playerWon(PlayerRef player) {
+bool TicTacToe::playerWon(PlayerRef player) const {
     std::bitset<9> bitboard;
     int i = 0;
     for (const auto& row : board)
@@ -66,3 +67,12 @@ bool TicTacToe::playerWon(PlayerRef player) {
     return false;
 }
 
+void TicTacToe::updateStatus(std::array<PlayerRef, PLAYERNUM>& players) {
+    for (auto& player : players) {
+        if (playerWon(player)) {
+            status = Won {player};
+            return;
+        }
+    }
+    if (moves >= 9) status = Draw {};
+}

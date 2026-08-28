@@ -25,6 +25,7 @@ enum class MoveError {
     BoardFinished,
 };
 
+using Board = std::array<std::array<Tile, BOARDSIZE>, BOARDSIZE>;
 
 class TicTacToe {
 public:
@@ -34,10 +35,9 @@ public:
 
     Status status;
 private:
-    void updateStatus();
+    bool playerWon(PlayerRef) const;
+    void updateStatus(std::array<PlayerRef, PLAYERNUM>&);
 
-    bool playerWon(PlayerRef);
-
-    std::array<std::array<Tile, BOARDSIZE>, BOARDSIZE> board;
-    
+    Board board;
+    int moves;
 };

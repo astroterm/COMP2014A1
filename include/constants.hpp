@@ -4,6 +4,7 @@
 #include <bitset>
 
 inline constexpr int BOARDSIZE = 3;
+inline constexpr int PLAYERNUM = 2;
 
 inline constexpr std::array<std::bitset<9>, 8> WIN_PATTERNS = {
     std::bitset<9>(0b111000000),
