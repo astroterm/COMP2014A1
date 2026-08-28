@@ -6,7 +6,6 @@
 #include <variant>
 
 #include "constants.hpp"
-#include "player.hpp"
 
 namespace {
     bool samePlayer(PlayerRef a, PlayerRef b) {
