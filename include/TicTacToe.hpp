@@ -29,7 +29,7 @@ using Board = std::array<std::array<Tile, BOARDSIZE>, BOARDSIZE>;
 
 class TicTacToe {
 public:
-    TicTacToe(std::array<PlayerRef, PLAYERNUM>&);
+    TicTacToe(std::array<PlayerRef, PLAYERNUM>);
     std::expected<void, MoveError> addMove(PlayerRef);
     bool displayRow(int, char) const;
 
@@ -38,7 +38,7 @@ private:
     bool playerWon(PlayerRef) const;
     void updateStatus();
 
-    std::array<PlayerRef, PLAYERNUM>& players;
+    std::array<PlayerRef, PLAYERNUM> players;
     Board board;
     int moves;
 };

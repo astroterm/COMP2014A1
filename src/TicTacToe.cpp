@@ -13,7 +13,7 @@ namespace {
     }
 }
 
-TicTacToe::TicTacToe(std::array<PlayerRef, PLAYERNUM>& players) :
+TicTacToe::TicTacToe(std::array<PlayerRef, PLAYERNUM> players) :
     status {},
     players(players),
     board  {},
