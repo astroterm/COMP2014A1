@@ -13,8 +13,9 @@ namespace {
     }
 }
 
-TicTacToe::TicTacToe() :
+TicTacToe::TicTacToe(std::array<PlayerRef, PLAYERNUM>& players) :
     status {},
+    players(players),
     board  {},
     moves (0)
 {}
@@ -47,7 +48,7 @@ std::expected<void, MoveError> TicTacToe::addMove(PlayerRef player) {
     board[row][col] = Taken {player};
 
     moves++;
-
+    updateStatus();
     return {};
 }
 
@@ -68,7 +69,7 @@ bool TicTacToe::playerWon(PlayerRef player) const {
     return false;
 }
 
-void TicTacToe::updateStatus(std::array<PlayerRef, PLAYERNUM>& players) {
+void TicTacToe::updateStatus() {
     for (auto& player : players) {
         if (playerWon(player)) {
             status = Won {player};
