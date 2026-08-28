@@ -52,11 +52,12 @@ std::expected<void, MoveError> TicTacToe::addMove(PlayerRef player) {
 bool TicTacToe::playerWin(PlayerRef player) {
     std::bitset<9> bitboard;
     int i = 0;
-    for (const auto row : board)
-        for (const auto& tile : row)
+    for (const auto& row : board)
+        for (const auto& tile : row) {
             if (auto* taken = std::get_if<Taken>(&tile))
                 if (samePlayer(player, taken->player))
-                    bitboard.set(i++);
-
+                    bitboard.set(i);
+            i++;
+        }
 }
 
