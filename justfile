@@ -2,9 +2,8 @@ cxx := "c++"
 cxx_ver := "26"
 flags := "-std=c++" + cxx_ver + " -Wall -Wextra -pedantic"
 
-run source="*.cpp": (build source)
+run: build
     target/main
 
-build source="*.cpp":
-    {{cxx}} {{flags}} src/{{source}} -o "target/main"
-
+build:
+    {{cxx}} {{flags}} src/{{source}} -Iinclude -o "target/main"
