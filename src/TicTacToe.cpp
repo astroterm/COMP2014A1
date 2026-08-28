@@ -49,7 +49,7 @@ std::expected<void, MoveError> TicTacToe::addMove(PlayerRef player) {
     return {};
 }
 
-bool TicTacToe::playerWin(PlayerRef player) {
+bool TicTacToe::playerWon(PlayerRef player) {
     std::bitset<9> bitboard;
     int i = 0;
     for (const auto& row : board)
@@ -59,5 +59,10 @@ bool TicTacToe::playerWin(PlayerRef player) {
                     bitboard.set(i);
             i++;
         }
+    
+    for (auto& pattern : WIN_PATTERNS) {
+        if ((bitboard & pattern) == pattern) return true;
+    }
+    return false;
 }
 

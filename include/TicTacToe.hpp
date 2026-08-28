@@ -36,7 +36,7 @@ public:
 private:
     void updateStatus();
 
-    bool playerWin(PlayerRef);
+    bool playerWon(PlayerRef);
 
     std::array<std::array<Tile, BOARDSIZE>, BOARDSIZE> board;
     
