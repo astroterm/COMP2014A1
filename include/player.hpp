@@ -4,6 +4,7 @@
 
 class Player {
 public:
-    char token;
+    Player();
     std::pair<int, int> move(); // returns 0-idexed integers
+    char token;
 };
