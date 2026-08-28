@@ -1,5 +1,10 @@
+#include "TicTacToe.hpp"
 
-#include <iostream>
+#include <array>
+
 #include "constants.hpp"
+#include "player.hpp"
 
 
+
+TicTacToe::TicTacToe() : status(Playable {}) {};
