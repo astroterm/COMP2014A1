@@ -32,9 +32,12 @@ public:
     std::expected<void, MoveError> addMove(PlayerRef);
     bool displayRow(int, char) const;
 
+    Status status;
 private:
-    Status gameStatus() const;
+    void updateStatus();
+
+    bool playerWin(PlayerRef);
 
     std::array<std::array<Tile, BOARDSIZE>, BOARDSIZE> board;
-    Status status;
+    
 };

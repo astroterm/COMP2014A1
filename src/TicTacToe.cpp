@@ -8,7 +8,11 @@
 #include "constants.hpp"
 #include "player.hpp"
 
-
+namespace {
+    bool samePlayer(PlayerRef a, PlayerRef b) {
+        return &a.get() == &b.get();
+    }
+}
 
 TicTacToe::TicTacToe() :
     board  {},
@@ -31,7 +35,7 @@ bool TicTacToe::displayRow(int row, char separator) const {
 std::expected<void, MoveError> TicTacToe::addMove(PlayerRef player) {
     auto [row, col] = player.get().move();
 
-    if (!std::holds_alternative<Playable>(gameStatus()))
+    if (!std::holds_alternative<Playable>(status))
         return std::unexpected(MoveError::BoardFinished);
 
     if (row >= BOARDSIZE || col >= BOARDSIZE || row < 0 || col < 0)
@@ -44,3 +48,15 @@ std::expected<void, MoveError> TicTacToe::addMove(PlayerRef player) {
 
     return {};
 }
+
+bool TicTacToe::playerWin(PlayerRef player) {
+    std::bitset<9> bitboard;
+    int i = 0;
+    for (const auto row : board)
+        for (const auto& tile : row)
+            if (auto* taken = std::get_if<Taken>(&tile))
+                if (samePlayer(player, taken->player))
+                    bitboard.set(i++);
+
+}
+
