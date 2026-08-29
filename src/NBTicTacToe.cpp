@@ -1,10 +1,3 @@
-#if defined(__clang__)
-#    define MUSTTAIL [[clang::musttail]]
-#elif defined(__GNUC__) && __GNUC__ >= 15
-#    define MUSTTAIL [[gnu::musttail]]
-#else
-#    define MUSTTAIL
-#endif
 #include <algorithm>
 #include <iostream>
 
