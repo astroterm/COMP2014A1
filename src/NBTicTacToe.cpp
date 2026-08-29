@@ -44,7 +44,7 @@ void NBTicTacToe::displayBoards() const {
         for (const auto& col : row) {
             std::cout << " " << std::string(
                 11, sameTTT(board, &col) ? '*' : '-'
-            );
+            ) << " ";
         }
         std::cout << '\n';
     }
