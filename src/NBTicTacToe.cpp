@@ -5,7 +5,6 @@
 #else
 #    define MUSTTAIL
 #endif
-
 #include <algorithm>
 #include <iostream>
 
@@ -58,7 +57,7 @@ void NBTicTacToe::displayBoards() const {
     }
 }
 
-std::expected<void, BoardError> NBTicTacToe::updateStatus(PlayerRef player, Move move) {
+std::expected<void, BoardError> NBTicTacToe::updateStatus(Move move) {
     for (const auto& row : nboard)
         for (const auto& ttt : row)
             if (std::holds_alternative<Won>(ttt.status)) {
@@ -85,7 +84,7 @@ std::expected<void, BoardError> NBTicTacToe::updateStatus(PlayerRef player, Move
         return {};
     }
 
-    MUSTTAIL return updateStatus(player, player.get().select());
+    return std::unexpected(BoardError::NoBoard);
 
 }
 
@@ -100,9 +99,21 @@ PlayResult NBTicTacToe::play(PlayerRef player) {
     auto result = currentBoard->get().addMove(player, {row, col});
     if (!result) return std::unexpected(result.error());
 
-    auto select = updateStatus(player, {row, col});
+    auto select = updateStatus({row, col});
     if (!select) return std::unexpected(select.error());
 
     return {};
 }
 
+std::expected<void, BoardError> NBTicTacToe::selectBoard(PlayerRef player) {
+    auto [row, col] = player.get().select();
+
+    if (row >= BOARDSIZE || col >= BOARDSIZE || row < 0 || col < 0)
+        return std::unexpected(BoardError::OutOfBounds);
+
+    if (std::holds_alternative<Draw>(nboard[row][col].status))
+        return std::unexpected(BoardError::BoardFull);
+
+    currentBoard = nboard[row][col];
+    return {};
+}
