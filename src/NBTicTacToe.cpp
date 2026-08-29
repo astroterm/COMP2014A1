@@ -1,3 +1,11 @@
+#if defined(__clang__)
+#    define MUSTTAIL [[clang::musttail]]
+#elif defined(__GNUC__) &*& __GNUC__ >= 15
+#    define MUSTTAIL [[gnu::musttail]]
+#else
+#    define MUSTTAIL
+#endif
+
 #include "NBTicTacToe.hpp"
 
 #include <iostream>
@@ -50,6 +58,28 @@ void NBTicTacToe::displayBoards() const {
     }
 }
 
+std::expected<void, BoardError> NBTicTacToe::updateStatus(PlayerRef player, Move move) {
+    for (const auto& row : nboard)
+        for (const auto& ttt : row)
+            if (
+                std::holds_alternative<Won>(ttt.status)
+            ||  std::holds_alternative<Draw>(ttt.status)
+            ) {
+                status = ttt.status;
+                return std::unexpected(BoardError::GameOver);
+            }
+
+    auto [row, col] = move;
+    TicTacToe& newboard = nboard[row][col];
+
+    if (std::holds_alternative<Playable>(newboard.status)) {
+        currentBoard = newboard;
+        return {};
+    }
+
+    MUSTTAIL return updateStatus(player, player.get().select());
+
+}
 
 PlayResult NBTicTacToe::play(PlayerRef player) {
     if (!std::holds_alternative<Playable>(status))
@@ -62,8 +92,9 @@ PlayResult NBTicTacToe::play(PlayerRef player) {
     auto result = currentBoard->get().addMove(player, {row, col});
     if (!result) return std::unexpected(result.error());
 
-    auto select = selectBoard({row, col});
+    auto select = updateStatus(player, {row, col});
     if (!select) return std::unexpected(select.error());
 
     return {};
 }
+

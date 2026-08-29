@@ -9,6 +9,7 @@ class Player {
 public:
     Player();
     Move move(); // returns 0-idexed integers
+    Move select();
     char token;
 };
 

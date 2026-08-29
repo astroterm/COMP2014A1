@@ -25,8 +25,7 @@ public:
 
     Status status;
 private:
-    void updateStatus();
-    std::expected<void, BoardError> selectBoard(Move);
+    std::expected<void, BoardError> updateStatus(PlayerRef player, Move move);
     PlayResult play(PlayerRef);
 
     NBoard nboard;
