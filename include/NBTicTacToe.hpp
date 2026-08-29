@@ -14,7 +14,7 @@ enum class SelectBoardError {
 
 using NBoard = std::array<std::array<TicTacToe, BOARDSIZE>, BOARDSIZE>;
 using BoardRef = std::optional<std::reference_wrapper<TicTacToe>>;
-using PlayError = std::expected<void, std::variant<SelectBoardError, MoveError>>;
+using PlayResult = std::expected<void, std::variant<SelectBoardError, MoveError>>;
 
 
 class NBTicTacToe {
@@ -26,7 +26,7 @@ public:
 private:
     void updateStatus();
     std::expected<void, SelectBoardError> selectBoard();
-    PlayError play(PlayerRef);
+    PlayResult play(PlayerRef);
 
     NBoard nboard;
     BoardRef board;
