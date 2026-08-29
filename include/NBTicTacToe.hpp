@@ -22,12 +22,12 @@ class NBTicTacToe {
 public:
     NBTicTacToe();
     void displayBoards() const;
+    std::expected<void, BoardError> selectBoard(PlayerRef);
 
     Status status;
 private:
     std::expected<void, BoardError> updateStatus(Move move);
     PlayResult play(PlayerRef);
-    std::expected<void, BoardError> selectBoard(PlayerRef);
 
     NBoard nboard;
     BoardRef currentBoard;
