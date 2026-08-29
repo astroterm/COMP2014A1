@@ -19,16 +19,19 @@ TicTacToe::TicTacToe() :
     moves (0)
 {}
 
-bool TicTacToe::displayRow(int row, char separator) const {
+bool TicTacToe::displayRow(int row, char outsep, char insep) const {
     if (row >= BOARDSIZE || row < 0) return false;
+    bool first = true;
+    std::cout << outsep << " ";
     for (const auto& tile : board[row]) {
-        std::cout << separator << " ";
+        if (!first) std::cout << insep << " ";
+        first = false;
         if (const auto* taken = std::get_if<Taken>(&tile))
             std::cout << taken->player.get().token;
         else std::cout << " ";
         std::cout << " ";
     }
-    std::cout << separator;
+    std::cout << outsep;
     return true;
 }
 

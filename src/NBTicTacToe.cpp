@@ -6,3 +6,7 @@ NBTicTacToe::NBTicTacToe() :
     nboard {},
     board  ()
 {}
+
+void NBTicTacToe::displayBoards() const {
+    
+}

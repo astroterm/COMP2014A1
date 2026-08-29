@@ -29,7 +29,7 @@ class TicTacToe {
 public:
     TicTacToe();
     std::expected<void, MoveError> addMove(PlayerRef, Move);
-    bool displayRow(int, char) const;
+    bool displayRow(int, char, char) const;
 
     Status status;
 private:
