@@ -1,4 +1,3 @@
-#include <algorithm>
 #if defined(__clang__)
 #    define MUSTTAIL [[clang::musttail]]
 #elif defined(__GNUC__) && __GNUC__ >= 15
@@ -7,10 +6,10 @@
 #    define MUSTTAIL
 #endif
 
-#include "NBTicTacToe.hpp"
-
+#include <algorithm>
 #include <iostream>
 
+#include "NBTicTacToe.hpp"
 #include "TicTacToe.hpp"
 
 namespace {
