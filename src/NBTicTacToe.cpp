@@ -32,7 +32,7 @@ void NBTicTacToe::displayBoards() const {
                 col.displayRow(i, sameTTT(board, &col) ? '*' : '|', '|');
             }
             std::cout << "\n";
-            if (i != 2) for (const auto& col : row) {
+            if (i != BOARDSIZE - 1) for (const auto& col : row) {
                 std::cout
                     << (sameTTT(board, &col) ? '*' : '-')
                     << " -   -   - "
