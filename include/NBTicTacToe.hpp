@@ -6,15 +6,16 @@
 #include <functional>
 #include <optional>
 
-enum class SelectBoardError {
+enum class BoardError {
     OutOfBounds,
     BoardFull,
-    GameOver
+    GameOver,
+    NoBoard,
 };
 
 using NBoard = std::array<std::array<TicTacToe, BOARDSIZE>, BOARDSIZE>;
 using BoardRef = std::optional<std::reference_wrapper<TicTacToe>>;
-using PlayResult = std::expected<void, std::variant<SelectBoardError, MoveError>>;
+using PlayResult = std::expected<void, std::variant<BoardError, MoveError>>;
 
 
 class NBTicTacToe {
@@ -25,9 +26,9 @@ public:
     Status status;
 private:
     void updateStatus();
-    std::expected<void, SelectBoardError> selectBoard();
+    std::expected<void, BoardError> selectBoard(Move);
     PlayResult play(PlayerRef);
 
     NBoard nboard;
-    BoardRef board;
+    BoardRef currentBoard;
 };

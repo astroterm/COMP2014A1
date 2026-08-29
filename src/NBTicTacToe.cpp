@@ -13,7 +13,7 @@ namespace {
 NBTicTacToe::NBTicTacToe() :
     status {},
     nboard {},
-    board  ()
+    currentBoard  ()
 {}
 
 void NBTicTacToe::displayBoards() const {
@@ -21,7 +21,7 @@ void NBTicTacToe::displayBoards() const {
         // This level is every row of boards
         for (const auto& col : row) {
             std::cout << " " << std::string(
-                11, sameTTT(board, &col) ? '*' : '-'
+                11, sameTTT(currentBoard, &col) ? '*' : '-'
             ) << " ";
         }
         std::cout << '\n';
@@ -29,23 +29,41 @@ void NBTicTacToe::displayBoards() const {
             // this level is every row of the tictactoe
             for (const auto& col : row) {
                 // in here is each tictactoe itself
-                col.displayRow(i, sameTTT(board, &col) ? '*' : '|', '|');
+                col.displayRow(i, sameTTT(currentBoard, &col) ? '*' : '|', '|');
             }
             std::cout << "\n";
             if (i != BOARDSIZE - 1) for (const auto& col : row) {
                 std::cout
-                    << (sameTTT(board, &col) ? '*' : '-')
+                    << (sameTTT(currentBoard, &col) ? '*' : '-')
                     << " -   -   - "
-                    << (sameTTT(board, &col) ? '*' : '-');
+                    << (sameTTT(currentBoard, &col) ? '*' : '-');
             }
             std::cout << '\n';
         }
         std::cout << '\n';
         for (const auto& col : row) {
             std::cout << " " << std::string(
-                11, sameTTT(board, &col) ? '*' : '-'
+                11, sameTTT(currentBoard, &col) ? '*' : '-'
             ) << " ";
         }
         std::cout << '\n';
     }
+}
+
+
+PlayResult NBTicTacToe::play(PlayerRef player) {
+    if (!std::holds_alternative<Playable>(status))
+        return std::unexpected(MoveError::BoardFinished);
+
+    if (!currentBoard) return std::unexpected(BoardError::NoBoard);
+
+    auto [row, col] = player.get().move();
+
+    auto result = currentBoard->get().addMove(player, {row, col});
+    if (!result) return std::unexpected(result.error());
+
+    auto select = selectBoard({row, col});
+    if (!select) return std::unexpected(select.error());
+
+    return {};
 }
