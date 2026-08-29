@@ -5,10 +5,8 @@
 #include "TicTacToe.hpp"
 
 namespace {
-    bool sameTTT(BoardRef ref, TicTacToe* ttt) {
-        if (!ref) return false;
-        if (&ref.value().get() == ttt) return true;
-        return false;
+    bool sameTTT(BoardRef ref, const TicTacToe* ttt) {
+        return ref && &ref->get() == ttt;
     }
 }
 
@@ -20,11 +18,26 @@ NBTicTacToe::NBTicTacToe() :
 
 void NBTicTacToe::displayBoards() const {
     for (const auto& row : nboard) {
-        for (int i = 0; i < BOARDSIZE; i++) {
+        // This level is every row of boards
+        for (const auto& col : row) {
+            std::cout << " " << std::string(
+                11, sameTTT(board, &col) ? '*' : '-'
+            ) << " ";
+        }
+        std::cout << "\n";
+        for (int i = -1; i < BOARDSIZE; i++) {
+            // this level is every row of the tictactoe
             for (const auto& col : row) {
-                col.displayRow(i, '|', '|');
+                // in here is each tictactoe itself
+                col.displayRow(i, sameTTT(board, &col) ? '*' : '|', '|');
             }
             std::cout << "\n";
+        }
+        std::cout << "\n";
+        for (const auto& col : row) {
+            std::cout << " " << std::string(
+                11, sameTTT(board, &col) ? '*' : '-'
+            );
         }
         std::cout << "\n";
     }

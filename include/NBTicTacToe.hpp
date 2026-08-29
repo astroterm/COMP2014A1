@@ -17,6 +17,7 @@ enum class SelectBoardError {
 };
 
 class NBTicTacToe {
+public:
     NBTicTacToe();
     void displayBoards() const;
 

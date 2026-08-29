@@ -25,11 +25,12 @@ enum class MoveError {
 
 using Board = std::array<std::array<Tile, BOARDSIZE>, BOARDSIZE>;
 
+
 class TicTacToe {
 public:
     TicTacToe();
     std::expected<void, MoveError> addMove(PlayerRef, Move);
-    bool displayRow(int, char, char) const;
+    bool displayRow(int row, char outsep, char insep) const;
 
     Status status;
 private:
