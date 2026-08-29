@@ -1,3 +1,4 @@
+#include <algorithm>
 #if defined(__clang__)
 #    define MUSTTAIL [[clang::musttail]]
 #elif defined(__GNUC__) && __GNUC__ >= 15
@@ -61,13 +62,21 @@ void NBTicTacToe::displayBoards() const {
 std::expected<void, BoardError> NBTicTacToe::updateStatus(PlayerRef player, Move move) {
     for (const auto& row : nboard)
         for (const auto& ttt : row)
-            if (
-                std::holds_alternative<Won>(ttt.status)
-            ||  std::holds_alternative<Draw>(ttt.status)
-            ) {
+            if (std::holds_alternative<Won>(ttt.status)) {
                 status = ttt.status;
                 return std::unexpected(BoardError::GameOver);
             }
+    
+    if (
+        std::ranges::all_of(nboard, [](const auto& row) {
+            return std::ranges::all_of(row, [](const auto& ttt) {
+                return std::holds_alternative<Draw>(ttt.status);
+            });
+        })
+    ) {
+        status = Draw{};
+        return std::unexpected(BoardError::GameOver);
+    }
 
     auto [row, col] = move;
     TicTacToe& newboard = nboard[row][col];
