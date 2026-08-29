@@ -13,9 +13,8 @@ namespace {
     }
 }
 
-TicTacToe::TicTacToe(std::array<PlayerRef, PLAYERNUM> players) :
+TicTacToe::TicTacToe() :
     status {},
-    players(players),
     board  {},
     moves (0)
 {}
@@ -33,11 +32,11 @@ bool TicTacToe::displayRow(int row, char separator) const {
     return true;
 }
 
-std::expected<void, MoveError> TicTacToe::addMove(PlayerRef player) {
+std::expected<void, MoveError> TicTacToe::addMove(PlayerRef player, Move move) {
     if (!std::holds_alternative<Playable>(status))
         return std::unexpected(MoveError::BoardFinished);
 
-    auto [row, col] = player.get().move();
+    auto [row, col] = move;
 
     if (row >= BOARDSIZE || col >= BOARDSIZE || row < 0 || col < 0)
         return std::unexpected(MoveError::OutOfBounds);
@@ -48,11 +47,11 @@ std::expected<void, MoveError> TicTacToe::addMove(PlayerRef player) {
     board[row][col] = Taken {player};
 
     moves++;
-    updateStatus();
+    updateStatus(player);
     return {};
 }
 
-bool TicTacToe::playerWon(PlayerRef player) const {
+void TicTacToe::updateStatus(PlayerRef player) {
     std::bitset<9> bitboard;
     int i = 0;
     for (const auto& row : board)
@@ -64,14 +63,7 @@ bool TicTacToe::playerWon(PlayerRef player) const {
         }
     
     for (const auto& pattern : WIN_PATTERNS) {
-        if ((bitboard & pattern) == pattern) return true;
-    }
-    return false;
-}
-
-void TicTacToe::updateStatus() {
-    for (auto& player : players) {
-        if (playerWon(player)) {
+        if ((bitboard & pattern) == pattern) {
             status = Won {player};
             return;
         }

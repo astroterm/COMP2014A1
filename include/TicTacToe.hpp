@@ -3,12 +3,10 @@
 #include <array>
 #include <variant>
 #include <expected>
-#include <functional>
 
 #include "constants.hpp"
 #include "player.hpp"
 
-using PlayerRef = std::reference_wrapper<Player>;
 
 struct Won { PlayerRef player; };
 struct Draw {};
@@ -29,16 +27,15 @@ using Board = std::array<std::array<Tile, BOARDSIZE>, BOARDSIZE>;
 
 class TicTacToe {
 public:
-    TicTacToe(std::array<PlayerRef, PLAYERNUM>);
-    std::expected<void, MoveError> addMove(PlayerRef);
+    TicTacToe();
+    std::expected<void, MoveError> addMove(PlayerRef, Move);
     bool displayRow(int, char) const;
 
     Status status;
 private:
     bool playerWon(PlayerRef) const;
-    void updateStatus();
+    void updateStatus(PlayerRef);
 
-    std::array<PlayerRef, PLAYERNUM> players;
     Board board;
     int moves;
 };

@@ -3,12 +3,29 @@
 #include "constants.hpp"
 #include "player.hpp"
 #include "TicTacToe.hpp"
-#include <memory>
+#include <functional>
+#include <optional>
 
-using NBoard = std::array<std::array<Board, BOARDSIZE>, BOARDSIZE>;
+
+using NBoard = std::array<std::array<TicTacToe, BOARDSIZE>, BOARDSIZE>;
+using BoardRef = std::optional<std::reference_wrapper<TicTacToe>>;
+
+enum class SelectBoardError {
+    OutOfBounds,
+    BoardFull,
+    GameOver
+};
 
 class NBTicTacToe {
+    NBTicTacToe();
+    void displayBoards() const;
+
+    Status status;
 private:
-    std::array<std::unique_ptr<Player>, PLAYERNUM> players;
+    void updateStatus();
+    std::expected<void, SelectBoardError> selectBoard();
+    bool play(PlayerRef);
+
     NBoard nboard;
+    BoardRef board;
 };
