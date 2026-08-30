@@ -31,7 +31,7 @@ NBTicTacToe::NBTicTacToe(int seed) :
         nboard[
             Random(seed).range(0, BOARDSIZE-1)
         ][
-            Random(seed).range(0, BOARDSIZE-1)
+            Random(seed + 1).range(0, BOARDSIZE-1)
         ]
     )
 {}
