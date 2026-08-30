@@ -4,6 +4,8 @@
 #include "NBTicTacToe.hpp"
 #include "TicTacToe.hpp"
 
+#include "random.hpp"
+
 namespace {
     bool sameTTT(BoardRef ref, const TicTacToe* ttt) {
         return ref && &ref->get() == ttt;
@@ -13,7 +15,25 @@ namespace {
 NBTicTacToe::NBTicTacToe() :
     status {},
     nboard {},
-    currentBoard  ()
+    currentBoard (
+        nboard[
+            Random().range(0, BOARDSIZE-1)
+        ][
+            Random().range(0, BOARDSIZE-1)
+        ]
+    )
+{}
+
+NBTicTacToe::NBTicTacToe(int seed) :
+    status {},
+    nboard {},
+    currentBoard (
+        nboard[
+            Random(seed).range(0, BOARDSIZE-1)
+        ][
+            Random(seed).range(0, BOARDSIZE-1)
+        ]
+    )
 {}
 
 void NBTicTacToe::displayBoards() const {

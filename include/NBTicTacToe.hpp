@@ -21,6 +21,7 @@ using PlayResult = std::expected<void, std::variant<BoardError, MoveError>>;
 class NBTicTacToe {
 public:
     NBTicTacToe();
+    NBTicTacToe(int seed);
     void displayBoards() const;
     std::expected<void, BoardError> selectBoard(PlayerRef);
 
