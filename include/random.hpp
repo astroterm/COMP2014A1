@@ -9,7 +9,7 @@ public:
     Random(int seed) : gen(seed) {}
 
     int range(int start, int end) {
-        std::uniform_int_distribution dist(start, end);
+        std::uniform_int_distribution dist(start, end - 1);
         return dist(gen);
     }
 

@@ -18,9 +18,9 @@ NBTicTacToe::NBTicTacToe() :
     nboard {},
     currentBoard (
         nboard[
-            random.range(0, BOARDSIZE-1)
+            random.range(0, BOARDSIZE)
         ][
-            random.range(0, BOARDSIZE-1)
+            random.range(0, BOARDSIZE)
         ]
     )
 {}
@@ -31,9 +31,9 @@ NBTicTacToe::NBTicTacToe(int seed) :
     nboard {},
     currentBoard (
         nboard[
-            random.range(0, BOARDSIZE-1)
+            random.range(0, BOARDSIZE)
         ][
-            random.range(0, BOARDSIZE-1)
+            random.range(0, BOARDSIZE)
         ]
     )
 {}
@@ -122,8 +122,8 @@ PlayResult NBTicTacToe::play(PlayerRef player) {
 }
 
 std::expected<void, BoardError> NBTicTacToe::selectBoard() {
-    int row = random.range(0, BOARDSIZE-1);
-    int col = random.range(0, BOARDSIZE-1);
+    int row = random.range(0, BOARDSIZE);
+    int col = random.range(0, BOARDSIZE);
 
     if (std::holds_alternative<Draw>(nboard[row][col].status))
         return std::unexpected(BoardError::BoardFull);
