@@ -8,8 +8,7 @@ using Move = std::pair<int, int>;
 class Player {
 public:
     Player();
-    Move move(); // returns 0-idexed integers
-    Move select();
+    Move move();
     char token;
 };
 

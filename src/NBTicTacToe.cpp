@@ -40,7 +40,6 @@ NBTicTacToe::NBTicTacToe(int seed) :
 
 void NBTicTacToe::displayBoards() const {
     for (const auto& row : nboard) {
-        // This level is every row of boards
         for (const auto& col : row) {
             std::cout << " " << std::string(
                 11, sameTTT(currentBoard, &col) ? '*' : '-'
@@ -48,9 +47,7 @@ void NBTicTacToe::displayBoards() const {
         }
         std::cout << '\n';
         for (int i = 0; i < BOARDSIZE; i++) {
-            // this level is every row of the tictactoe
             for (const auto& col : row) {
-                // in here is each tictactoe itself
                 col.displayRow(i, sameTTT(currentBoard, &col) ? '*' : '|', '|');
             }
             std::cout << "\n";
