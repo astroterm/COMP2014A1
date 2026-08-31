@@ -21,7 +21,7 @@ Move HumanPlayer::move() {
     std::cout << "column: ";
     std::cin >> col;
 
-    return {row, col};
+    return {row - 1, col - 1};
 }
 
 RandomPlayer::RandomPlayer() : Player('O', "Player 2") {}

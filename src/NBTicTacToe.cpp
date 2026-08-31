@@ -13,8 +13,8 @@ namespace {
 }
 
 NBTicTacToe::NBTicTacToe() :
-    random {},
     status {},
+    random {},
     nboard {},
     currentBoard (
         nboard[
@@ -26,8 +26,8 @@ NBTicTacToe::NBTicTacToe() :
 {}
 
 NBTicTacToe::NBTicTacToe(int seed) :
-    random {seed},
     status {},
+    random {seed},
     nboard {},
     currentBoard (
         nboard[
@@ -39,34 +39,39 @@ NBTicTacToe::NBTicTacToe(int seed) :
 {}
 
 void NBTicTacToe::displayBoards() const {
+    std::cout << std::string(41, '=') << '\n';
     for (const auto& row : nboard) {
         for (const auto& col : row) {
             std::cout << " " << std::string(
                 11, sameTTT(currentBoard, &col) ? '*' : '-'
-            ) << " ";
+            ) << "  ";
         }
         std::cout << '\n';
         for (int i = 0; i < BOARDSIZE; i++) {
             for (const auto& col : row) {
                 col.displayRow(i, sameTTT(currentBoard, &col) ? '*' : '|', '|');
+                std::cout << " ";
             }
             std::cout << "\n";
-            if (i != BOARDSIZE - 1) for (const auto& col : row) {
-                std::cout
-                    << (sameTTT(currentBoard, &col) ? '*' : '-')
-                    << " -   -   - "
-                    << (sameTTT(currentBoard, &col) ? '*' : '-');
+            if (i != BOARDSIZE - 1) {
+                for (const auto& col : row) {
+                    std::cout
+                        << (sameTTT(currentBoard, &col) ? '*' : '|')
+                        << " -   -   - "
+                        << (sameTTT(currentBoard, &col) ? '*' : '|')
+                        << ' ';
+                }
+                std::cout << '\n';
             }
-            std::cout << '\n';
         }
-        std::cout << '\n';
         for (const auto& col : row) {
             std::cout << " " << std::string(
                 11, sameTTT(currentBoard, &col) ? '*' : '-'
-            ) << " ";
+            ) << "  ";
         }
-        std::cout << '\n';
+        std::cout << "\n";
     }
+    std::cout << std::string(41, '=') << "\n\n";
 }
 
 std::expected<void, BoardError> NBTicTacToe::updateStatus(Move move) {
