@@ -1,11 +1,16 @@
 #include "NBGame.hpp"
 #include "NBTicTacToe.hpp"
+#include "player.hpp"
 #include <variant>
 #include <iostream>
+#include <memory>
 
 
 NBGame::NBGame() :
-    players {},
+    players {
+        std::make_unique<HumanPlayer>(),
+        std::make_unique<RandomPlayer>()
+    },
     board {}
 {}
 
