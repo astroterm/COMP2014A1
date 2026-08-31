@@ -3,6 +3,7 @@
 #include "constants.hpp"
 #include "player.hpp"
 #include "TicTacToe.hpp"
+#include "random.hpp"
 #include <functional>
 #include <optional>
 
@@ -23,13 +24,14 @@ public:
     NBTicTacToe();
     NBTicTacToe(int seed);
     void displayBoards() const;
-    std::expected<void, BoardError> selectBoard(PlayerRef);
 
     Status status;
 private:
     std::expected<void, BoardError> updateStatus(Move move);
+    std::expected<void, BoardError> selectBoard();
     PlayResult play(PlayerRef);
 
+    Random random;
     NBoard nboard;
     BoardRef currentBoard;
 };
