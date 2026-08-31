@@ -12,6 +12,9 @@ public:
     void play();
 
 private:
+
+    void handleError(std::variant<BoardError, MoveError>);
+
     std::array<std::unique_ptr<Player>, PLAYERNUM> players;
     NBTicTacToe board;
 };

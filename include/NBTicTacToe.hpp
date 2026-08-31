@@ -8,7 +8,6 @@
 #include <optional>
 
 enum class BoardError {
-    OutOfBounds,
     BoardFull,
     GameOver,
     NoBoard,
@@ -23,13 +22,13 @@ class NBTicTacToe {
 public:
     NBTicTacToe();
     NBTicTacToe(int seed);
+    PlayResult play(PlayerRef);
     void displayBoards() const;
 
     Status status;
 private:
     std::expected<void, BoardError> updateStatus(Move move);
     std::expected<void, BoardError> selectBoard();
-    PlayResult play(PlayerRef);
 
     Random random;
     NBoard nboard;
