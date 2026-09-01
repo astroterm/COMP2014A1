@@ -24,7 +24,7 @@ public:
     NBTicTacToe(int seed);
     PlayResult play(PlayerRef);
     void displayBoards() const;
-    Status& getStatus() const;
+    const Status& getStatus() const;
 
 private:
     std::expected<void, BoardError> updateStatus(Move move);
