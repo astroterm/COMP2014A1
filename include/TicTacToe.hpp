@@ -31,7 +31,8 @@ public:
     TicTacToe();
     std::expected<void, MoveError> addMove(PlayerRef, Move);
     bool displayRow(int row, char outsep, char insep) const;
-    const Status& status() const;
+    const Status& status() const { return status_; }
+
 
 private:
     bool playerWon(PlayerRef) const;

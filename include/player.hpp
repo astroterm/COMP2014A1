@@ -12,8 +12,8 @@ public:
     Player(char, std::string);
     virtual ~Player() = default;
     virtual Move move() = 0;
-    const char token() const;
-    const std::string name() const;
+    const char token() const { return token_; };
+    const std::string name() const { return name_; }
 
 
 private:
