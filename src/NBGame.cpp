@@ -8,8 +8,8 @@
 
 NBGame::NBGame() :
     players {
-        std::make_unique<HumanPlayer>(),
-        std::make_unique<RandomPlayer>()
+        std::make_unique<HumanPlayer>('X', "Player 1"),
+        std::make_unique<RandomPlayer>('O', "Player 2"),
     },
     board {}
 {}

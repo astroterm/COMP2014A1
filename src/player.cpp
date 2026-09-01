@@ -11,7 +11,7 @@ Player::Player(char token, std::string name) :
 {}
 
 
-HumanPlayer::HumanPlayer() : Player('X', "Player 1") {}
+HumanPlayer::HumanPlayer(char token, std::string name) : Player(token, name) {}
 
 Move HumanPlayer::move() {
     int row, col;
@@ -24,7 +24,7 @@ Move HumanPlayer::move() {
     return {row - 1, col - 1};
 }
 
-RandomPlayer::RandomPlayer() : Player('O', "Player 2") {}
+RandomPlayer::RandomPlayer(char token, std::string name) : Player(token, name) {}
 
 Move RandomPlayer::move() {
     int row = random.range(0, BOARDSIZE);

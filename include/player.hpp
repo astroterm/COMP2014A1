@@ -20,13 +20,13 @@ public:
 
 class HumanPlayer : public Player {
 public:
-    HumanPlayer();
+    HumanPlayer(char, std::string);
     Move move() override;
 };
 
 class RandomPlayer : public Player {
 public:
-    RandomPlayer();
+    RandomPlayer(char, std::string);
     Move move() override;
 };
 
