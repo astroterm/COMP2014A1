@@ -77,15 +77,15 @@ void NBTicTacToe::displayBoards() const {
 std::expected<void, BoardError> NBTicTacToe::updateStatus(Move move) {
     for (const auto& row : nboard)
         for (const auto& ttt : row)
-            if (std::holds_alternative<Won>(ttt.status)) {
-                status = ttt.status;
+            if (std::holds_alternative<Won>(ttt.getStatus())) {
+                status = ttt.getStatus();
                 return std::unexpected(BoardError::GameOver);
             }
     
     if (
         std::ranges::all_of(nboard, [](const auto& row) {
             return std::ranges::all_of(row, [](const auto& ttt) {
-                return std::holds_alternative<Draw>(ttt.status);
+                return std::holds_alternative<Draw>(ttt.getStatus());
             });
         })
     ) {
@@ -96,7 +96,7 @@ std::expected<void, BoardError> NBTicTacToe::updateStatus(Move move) {
     auto [row, col] = move;
     TicTacToe& newboard = nboard[row][col];
 
-    if (std::holds_alternative<Playable>(newboard.status)) {
+    if (std::holds_alternative<Playable>(newboard.getStatus())) {
         currentBoard = newboard;
         return {};
     }
@@ -127,7 +127,7 @@ std::expected<void, BoardError> NBTicTacToe::selectBoard() {
     int row = random.range(0, BOARDSIZE);
     int col = random.range(0, BOARDSIZE);
 
-    if (std::holds_alternative<Draw>(nboard[row][col].status))
+    if (std::holds_alternative<Draw>(nboard[row][col].getStatus()))
         return std::unexpected(BoardError::BoardFull);
 
     currentBoard = nboard[row][col];

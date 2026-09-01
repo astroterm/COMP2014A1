@@ -17,13 +17,13 @@ NBGame::NBGame() :
 void NBGame::play() {
     PlayResult result;
     board.displayBoards();
-    while (std::holds_alternative<Playable>(board.status)) {
+    while (std::holds_alternative<Playable>(board.getStatus())) {
         for (auto& player : players) {
             do {
                 result = board.play(*player);
                 if (result || 
                     !std::holds_alternative<Playable>(
-                        board.status
+                        board.getStatus()
                     )
                 ) {
                     board.displayBoards();
@@ -32,15 +32,15 @@ void NBGame::play() {
             } while (true);
             
             if (!std::holds_alternative<Playable>(
-                board.status
+                board.getStatus()
             )) break;
         }
     }
-    if (std::holds_alternative<Draw>(board.status)) {
+    if (std::holds_alternative<Draw>(board.getStatus())) {
         std::cout << "The game ended in a draw.\n";
     } else {
         std::cout << "The winner is: " <<
-        std::get<Won>(board.status).player.get().name
+        std::get<Won>(board.getStatus()).player.get().name
         << "!!\n";
     }
 }
