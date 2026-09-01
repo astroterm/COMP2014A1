@@ -13,9 +13,9 @@ namespace {
 }
 
 NBTicTacToe::NBTicTacToe() :
-    status {},
-    random {},
-    nboard {},
+    status_ {},
+    random  {},
+    nboard  {},
     currentBoard (
         nboard[
             random.range(0, BOARDSIZE)
@@ -26,9 +26,9 @@ NBTicTacToe::NBTicTacToe() :
 {}
 
 NBTicTacToe::NBTicTacToe(int seed) :
-    status {},
-    random {seed},
-    nboard {},
+    status_ {},
+    random  {seed},
+    nboard  {},
     currentBoard (
         nboard[
             random.range(0, BOARDSIZE)
@@ -77,26 +77,26 @@ void NBTicTacToe::displayBoards() const {
 std::expected<void, BoardError> NBTicTacToe::updateStatus(Move move) {
     for (const auto& row : nboard)
         for (const auto& ttt : row)
-            if (std::holds_alternative<Won>(ttt.getStatus())) {
-                status = ttt.getStatus();
+            if (std::holds_alternative<Won>(ttt.status())) {
+                status_ = ttt.status();
                 return std::unexpected(BoardError::GameOver);
             }
     
     if (
         std::ranges::all_of(nboard, [](const auto& row) {
             return std::ranges::all_of(row, [](const auto& ttt) {
-                return std::holds_alternative<Draw>(ttt.getStatus());
+                return std::holds_alternative<Draw>(ttt.status());
             });
         })
     ) {
-        status = Draw{};
+        status_ = Draw{};
         return std::unexpected(BoardError::GameOver);
     }
 
     auto [row, col] = move;
     TicTacToe& newboard = nboard[row][col];
 
-    if (std::holds_alternative<Playable>(newboard.getStatus())) {
+    if (std::holds_alternative<Playable>(newboard.status())) {
         currentBoard = newboard;
         return {};
     }
@@ -107,7 +107,7 @@ std::expected<void, BoardError> NBTicTacToe::updateStatus(Move move) {
 }
 
 PlayResult NBTicTacToe::play(PlayerRef player) {
-    if (!std::holds_alternative<Playable>(status))
+    if (!std::holds_alternative<Playable>(status_))
         return std::unexpected(MoveError::BoardFinished);
 
     if (!currentBoard) return std::unexpected(BoardError::NoBoard);
@@ -127,7 +127,7 @@ std::expected<void, BoardError> NBTicTacToe::selectBoard() {
     int row = random.range(0, BOARDSIZE);
     int col = random.range(0, BOARDSIZE);
 
-    if (std::holds_alternative<Draw>(nboard[row][col].getStatus()))
+    if (std::holds_alternative<Draw>(nboard[row][col].status()))
         return std::unexpected(BoardError::BoardFull);
 
     currentBoard = nboard[row][col];

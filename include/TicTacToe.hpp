@@ -31,13 +31,13 @@ public:
     TicTacToe();
     std::expected<void, MoveError> addMove(PlayerRef, Move);
     bool displayRow(int row, char outsep, char insep) const;
-    const Status& getStatus() const;
+    const Status& status() const;
 
 private:
     bool playerWon(PlayerRef) const;
     void updateStatus(PlayerRef);
 
-    Status status;
+    Status status_;
     Board board;
     int moves;
 };

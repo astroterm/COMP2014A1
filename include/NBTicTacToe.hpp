@@ -24,13 +24,13 @@ public:
     NBTicTacToe(int seed);
     PlayResult play(PlayerRef);
     void displayBoards() const;
-    const Status& getStatus() const;
+    const Status& status() const;
 
 private:
     std::expected<void, BoardError> updateStatus(Move move);
     std::expected<void, BoardError> selectBoard();
 
-    Status status;
+    Status status_;
     Random random;
     NBoard nboard;
     BoardRef currentBoard;

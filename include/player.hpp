@@ -12,9 +12,13 @@ public:
     Player(char, std::string);
     virtual ~Player() = default;
     virtual Move move() = 0;
+    const char token() const;
+    const std::string name() const;
 
-    char token;
-    std::string name;
+
+private:
+    char token_;
+    std::string name_;
 };
 
 class HumanPlayer : public Player {

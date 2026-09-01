@@ -5,8 +5,8 @@
 
 
 Player::Player(char token, std::string name) :
-    token(token),
-    name(name)
+    token_(token),
+    name_(name)
 {}
 
 
