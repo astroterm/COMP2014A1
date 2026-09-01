@@ -6,8 +6,7 @@
 
 Player::Player(char token, std::string name) :
     token(token),
-    name(name),
-    random()
+    name(name)
 {}
 
 

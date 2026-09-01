@@ -15,7 +15,6 @@ public:
 
     char token;
     std::string name;
-    Random random;
 };
 
 class HumanPlayer : public Player {
@@ -28,6 +27,8 @@ class RandomPlayer : public Player {
 public:
     RandomPlayer(char, std::string);
     Move move() override;
+private:
+    Random random;
 };
 
 using PlayerRef = std::reference_wrapper<Player>;
