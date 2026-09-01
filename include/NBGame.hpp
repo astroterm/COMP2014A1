@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <memory>
 
 #include "player.hpp"
 #include "constants.hpp"
@@ -12,8 +13,6 @@ public:
     void play();
 
 private:
-
-    void handleError(std::variant<BoardError, MoveError>);
 
     std::array<std::unique_ptr<Player>, PLAYERNUM> players;
     NBTicTacToe board;
