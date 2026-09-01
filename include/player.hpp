@@ -13,7 +13,7 @@ public:
     virtual ~Player() = default;
     virtual Move move() = 0;
     char token() const { return token_; };
-    const std::string name() const { return name_; }
+    const std::string& name() const { return name_; }
 
 
 private:
