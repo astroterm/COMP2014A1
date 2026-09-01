@@ -14,9 +14,9 @@ namespace {
 }
 
 TicTacToe::TicTacToe() :
-    status {},
-    board  {},
-    moves (0)
+    status_ {},
+    board   {},
+    moves   (0)
 {}
 
 bool TicTacToe::displayRow(int row, char outsep, char insep) const {
@@ -27,7 +27,7 @@ bool TicTacToe::displayRow(int row, char outsep, char insep) const {
         if (!first) std::cout << insep << " ";
         first = false;
         if (const auto* taken = std::get_if<Taken>(&tile))
-            std::cout << taken->player.get().token;
+            std::cout << taken->player.get().token();
         else std::cout << " ";
         std::cout << " ";
     }
@@ -36,7 +36,7 @@ bool TicTacToe::displayRow(int row, char outsep, char insep) const {
 }
 
 std::expected<void, MoveError> TicTacToe::addMove(PlayerRef player, Move move) {
-    if (!std::holds_alternative<Playable>(status))
+    if (!std::holds_alternative<Playable>(status()))
         return std::unexpected(MoveError::BoardFinished);
 
     auto [row, col] = move;
@@ -67,9 +67,9 @@ void TicTacToe::updateStatus(PlayerRef player) {
     
     for (const auto& pattern : WIN_PATTERNS) {
         if ((bitboard & pattern) == pattern) {
-            status = Won {player};
+            status_ = Won {player};
             return;
         }
     }
-    if (moves >= 9) status = Draw {};
+    if (moves >= 9) status_ = Draw {};
 }
